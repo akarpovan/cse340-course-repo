@@ -48,12 +48,3 @@ app.listen(PORT, () => {
     console.log(`Server is running at http://127.0.0.1:${PORT}`);
     console.log(`Environment: ${NODE_ENV}`);
 });
-
-
-// Manejo de cierre gracioso para evitar procesos zombie
-process.on('SIGINT', () => {
-    server.close(() => {
-        console.log('Servidor cerrado correctamente');
-        process.exit(0);
-    });
-});
