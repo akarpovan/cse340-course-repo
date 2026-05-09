@@ -1,31 +1,363 @@
-html,
-body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --clr-primary: #1a5276;
+  --clr-primary-dark: #154360;
+  --clr-accent: #2e86c1;
+  --clr-accent-light: #aed6f1;
+  --clr-bg: #f4f8fb;
+  --clr-surface: #ffffff;
+  --clr-text: #1c2833;
+  --clr-text-muted: #5d6d7e;
+  --clr-border: #d5e8f5;
+  --clr-footer-bg: #1a3a4a;
+  --clr-footer-text: #cfe2f0;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', Helvetica, sans-serif;
+
+  --radius: 8px;
+  --shadow-sm: 0 1px 4px rgba(26, 82, 118, 0.08);
+  --shadow-md: 0 4px 16px rgba(26, 82, 118, 0.13);
+
+  --max-width: 960px;
+  --nav-height: 64px;
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+  font-family: var(--font-body);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+/* ============================================================
+   NAVIGATION & HAMBURGER MENU
+   ============================================================ */
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+nav {
+  background: var(--clr-primary);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-            &:hover {
-                color: #0066cc;
-            }
-        }
-    }
+.nav-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Brand text */
+.nav-brand {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* Desktop menu */
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+nav ul li a {
+  display: block;
+  color: #e8f4fc;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius);
+  transition: background 0.2s, color 0.2s;
+}
+
+nav ul li a:hover,
+nav ul li a:focus-visible {
+  background: var(--clr-accent);
+  color: #ffffff;
+  outline: none;
+}
+
+/* ---------- Hamburger Button (hidden on desktop) ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius);
+  cursor: pointer;
+  padding: 6px;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.hamburger:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.hamburger:focus-visible {
+  outline: 3px solid var(--clr-accent-light);
+  outline-offset: 2px;
+}
+
+/* The 3 lines */
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animate lines → X when active */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ============================================================
+   RESPONSIVE — hamburger visible on mobile
+   ============================================================ */
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--clr-primary-dark);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  nav ul.open {
+    max-height: 320px;
+    box-shadow: var(--shadow-md);
+  }
+
+  nav ul li a {
+    padding: 0.9rem 1.5rem;
+    border-radius: 0;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.2s, padding-left 0.2s;
+  }
+
+  nav ul li:last-child a {
+    border-bottom: none;
+  }
+
+  nav ul li a:hover {
+    background: var(--clr-accent);
+    padding-left: 2rem;
+  }
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+main {
+  flex: 1;
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem 2rem;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--clr-primary);
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  border-bottom: 3px solid var(--clr-accent-light);
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  color: var(--clr-accent);
+  margin: 1.5rem 0 0.75rem;
+}
+
+p {
+  font-size: 1.05rem;
+  color: var(--clr-text);
+  max-width: 68ch;
+  margin-bottom: 1rem;
+}
+
+/* ---------- Lists ---------- */
+main ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+main ul li {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-left: 4px solid var(--clr-accent);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.2rem;
+  font-size: 1rem;
+  color: var(--clr-text);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+main ul li:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+main ul li img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  padding: 2px;
+}
+
+main ul li strong {
+  color: var(--clr-primary-dark);
+  font-weight: 600;
+}
+
+.main-logo {
+  display: block;
+  max-width: 280px;
+  width: 100%;
+  margin: 2rem auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--clr-footer-bg);
+  color: var(--clr-footer-text);
+  text-align: center;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  margin-top: auto;
+}
+
+footer p {
+  color: var(--clr-footer-text);
+  font-size: 0.9rem;
+  max-width: none;
+  margin: 0;
+}
+
+/* ---------- Focus Styles ---------- */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--clr-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ---------- Mobile small ---------- */
+@media (max-width: 480px) {
+  .nav-brand {
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  main {
+    margin: 1.5rem auto;
+    padding: 0 1rem 1.5rem;
+  }
+
+  main ul li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  main ul li img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .main-logo {
+    max-width: 180px;
+  }
 }
