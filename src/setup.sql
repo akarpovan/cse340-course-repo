@@ -68,4 +68,71 @@ FROM project p
 JOIN organization o ON p.organization_id = o.organization_id
 ORDER BY o.name, p.date;
 
+-- ========================================
+-- Category Table
+-- ========================================
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name        VARCHAR(150) NOT NULL UNIQUE
+);
+
+-- ========================================
+-- Insert sample data: Categories
+-- ========================================
+INSERT INTO category (name) VALUES
+('Environmental'),
+('Educational'),
+('Community Service'),
+('Health and Wellness');
+
+-- ========================================
+-- Project-Category Junction Table
+-- (connects projects to categories)
+-- ========================================
+CREATE TABLE project_category (
+    project_id  INT NOT NULL REFERENCES project(project_id),
+    category_id INT NOT NULL REFERENCES category(category_id),
+    PRIMARY KEY (project_id, category_id)
+);
+
+-- ========================================
+-- Associate projects with categories
+-- ========================================
+INSERT INTO project_category (project_id, category_id) VALUES
+-- BrightFuture Builders projects (Educational)
+(1, 2),  -- School Supply Drive       → Educational
+(2, 2),  -- Reading Mentorship        → Educational
+(3, 2),  -- After-School Tutoring     → Educational
+(4, 2),  -- Scholarship Fundraiser    → Educational
+(5, 2),  -- STEM Workshop             → Educational
+-- GreenHarvest Growers projects (Environmental)
+(6, 1),  -- Park Cleanup              → Environmental
+(7, 1),  -- Community Garden          → Environmental
+(8, 1),  -- River Restoration         → Environmental
+(9, 1),  -- Recycling Awareness       → Environmental
+(10, 1), -- Tree Planting Day         → Environmental
+-- UnityServe Volunteers projects (Community Service)
+(11, 3), -- Food Drive                → Community Service
+(12, 3), -- Homeless Shelter Help     → Community Service
+(13, 4), -- Senior Visits             → Health and Wellness
+(14, 3), -- Clothing Donation         → Community Service
+(15, 4); -- Community Health Fair     → Health and Wellness
+
+-- ========================================
+-- Verify categories
+-- ========================================
+SELECT * FROM category;
+
+SELECT category_id, name
+FROM public.category
+ORDER BY name;
+
+-- Verify project-category associations
+SELECT 
+    p.title AS project,
+    c.name  AS category
+FROM project_category pc
+JOIN project  p ON pc.project_id  = p.project_id
+JOIN category c ON pc.category_id = c.category_id
+ORDER BY c.name, p.title;
 	
