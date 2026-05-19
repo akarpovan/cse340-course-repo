@@ -3,6 +3,7 @@
         <h1>
             <%= title %>
         </h1>
+        <p>Here are a few of our partner organizations:</p>
         <!-- Put your page-specific content here -->
         <ul>
             <!--li><img src="/images/brightfuture-logo.png" alt="BrightFuture Builders logo"><strong>BrightFuture
@@ -14,11 +15,10 @@
                     Volunteers</strong>:
                 hello@unityserve.org</li-->
             <% organizations.forEach(organization=> { %>
-                <li><img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo"><strong>
+                <li><img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo"><a
+                        href="/organization/<%= organization.organization_id %>">
                         <%= organization.name %>
-                    </strong>: <%= organization.contact_email %>
-                        <br>
-                        <%= organization.description %>
+                    </a>: <%= organization.contact_email %>
                 </li>
                 <% }); %>
         </ul>

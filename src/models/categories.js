@@ -9,6 +9,6 @@ const getAllCategories = async () => {
 
     const result = await db.query(query);
     return result.rows;
-}
+};
 
-export { getAllCategories }
+export { getAllCategories };
