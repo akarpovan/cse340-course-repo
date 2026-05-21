@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+    <main>
+        <h1>
+            <%= project.title %>
+        </h1>
+
+        <div class="project-details">
+
+            <p class="project-description">
+                <%= project.description %>
+            </p>
+
+            <ul class="details-list">
+                <li>
+                    <strong>Date:</strong>
+                    <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
+                        day: 'numeric' , timeZone: 'UTC' }) %>
+                </li>
+                <li>
+                    <strong>Location:</strong>
+                    <%= project.location %>
+                </li>
+                <li>
+                    <strong>Organization:</strong>
+                    <a href="/organization/<%= project.organization_id %>">
+                        <%= project.organization_name %>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </main>
+    <%- include('partials/footer') %>

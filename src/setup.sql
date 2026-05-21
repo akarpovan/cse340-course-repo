@@ -67,6 +67,21 @@ SELECT
 FROM project p
 JOIN organization o ON p.organization_id = o.organization_id
 ORDER BY o.name, p.date;
+-- ========
+SELECT
+	p.project_id,
+	p.title,
+	p.description,
+	p.date,
+	p.location,
+	p.organization_id,
+	o.name AS organization_name
+FROM project p
+JOIN organization o ON p.organization_id = o.organization_id
+WHERE p.date >= '2025-05-20'
+ORDER BY p.date ASC
+LIMIT 10;
+
 
 -- ========================================
 -- Category Table
