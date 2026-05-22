@@ -26,6 +26,14 @@
                         <%= project.organization_name %>
                     </a>
                 </li>
+                <li>
+                    <strong>Categories:</strong>
+                    <% categories.forEach(category=> { %>
+                        <a href="/category/<%= category.category_id %>" class="category-tag">
+                            <%= category.name %>
+                        </a>
+                        <% }); %>
+                </li>
             </ul>
 
         </div>
