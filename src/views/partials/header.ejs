@@ -29,23 +29,34 @@
         </div>
     </nav>
 
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
+    <% const messages=flash(); %>
+        <% Object.keys(messages).forEach(type=> { %>
+            <% if (messages[type].length> 0) { %>
+                <% messages[type].forEach(msg=> { %>
+                    <div class="alert <%= type %>">
+                        <%= msg %>
+                    </div>
+                    <% }); %>
+                        <% } %>
+                            <% }); %>
 
-        hamburger.addEventListener('click', () => {
-            const isOpen = navMenu.classList.toggle('open');
-            hamburger.classList.toggle('active', isOpen);
-            hamburger.setAttribute('aria-expanded', isOpen);
-        });
+                                <script>
+                                    const hamburger = document.getElementById('hamburger');
+                                    const navMenu = document.getElementById('nav-menu');
 
-        // Close menu when a link is clicked
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('open');
-                hamburger.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-            });
-        });
-    </script>
+                                    hamburger.addEventListener('click', () => {
+                                        const isOpen = navMenu.classList.toggle('open');
+                                        hamburger.classList.toggle('active', isOpen);
+                                        hamburger.setAttribute('aria-expanded', isOpen);
+                                    });
+
+                                    // Close menu when a link is clicked
+                                    navMenu.querySelectorAll('a').forEach(link => {
+                                        link.addEventListener('click', () => {
+                                            navMenu.classList.remove('open');
+                                            hamburger.classList.remove('active');
+                                            hamburger.setAttribute('aria-expanded', 'false');
+                                        });
+                                    });
+                                </script>
 </body>

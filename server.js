@@ -7,6 +7,8 @@ import { testConnection } from './src/models/db.js';
 //import { getAllProjects } from './src/models/projects.js';
 //import { getAllCategories } from './src/models/categories.js';
 import router from './src/routes.js';
+import session from 'express-session';
+import flash from './src/middleware/flash.js';
 
 
 // Define the the application environment
@@ -14,6 +16,9 @@ const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
 // Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
+
+// Load the session secret from our environment variables
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +28,20 @@ const app = express();
 /**
   * Configure Express middleware
   */
+
+// Use flash message middleware
+app.use(flash);
+
+// Set up session management
+// This code sets up session management with a secret key for signing the session ID cookie. 
+// The resave and saveUninitialized options control session saving behavior, 
+// and the cookie.maxAge option sets the session expiration time. 
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
+}));
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -88,6 +107,10 @@ app.get('/test-error', (req, res, next) => {
     err.status = 500;
     next(err);
 }); **/
+
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Use the imported router to handle routes
 app.use(router);
