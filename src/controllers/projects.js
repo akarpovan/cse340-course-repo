@@ -1,5 +1,5 @@
-// Import any needed model functions
-import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject } from '../models/projects.js';
+// Import any needed model functions 
+import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
@@ -92,7 +92,41 @@ const processNewProjectForm = async (req, res) => {
         req.flash('error', 'There was an error creating the service project.');
         res.redirect('/new-project');
     }
-}
+};
+
+const showEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+    const projectDetails = await getProjectDetails(projectId);
+
+    const title = 'Edit Project';
+    const organizations = await getAllOrganizations();
+    res.render('edit-project', { title, projectDetails, organizations });
+};
+
+const processEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+
+    // Check for validation errors
+    const results = validationResult(req);
+    if (!results.isEmpty()) {
+        // Validation failed - loop through errors
+        results.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+
+        // Redirect back to the edit organization form
+        return res.redirect('/edit-project/' + req.params.id);
+    }
+
+    const { title, description, location, date, organizationId } = req.body;
+
+    await updateProject(organizationId, title, description, location, date, projectId);
+
+    // Set a success flash message
+    req.flash('success', 'Project updated successfully!');
+
+    res.redirect(`/project/${projectId}`);
+};
 
 
 // Export any controller functions
@@ -101,5 +135,7 @@ export {
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
-    projectValidation
+    projectValidation,
+    showEditProjectForm,
+    processEditProjectForm
 };

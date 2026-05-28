@@ -33,6 +33,12 @@ SELECT organization_id, name, description, contact_email, logo_filename
 	FROM public.organization;
 
 -- ========================================
+ UPDATE organization
+    SET name = $1, description = $2, contact_email = $3, logo_filename = $4
+    WHERE organization_id = $5
+    RETURNING organization_id;
+	
+-- ========================================
 -- Project Table
 -- ========================================
 CREATE TABLE project (
@@ -99,7 +105,11 @@ JOIN organization o ON p.organization_id = o.organization_id
 WHERE p.date >= '2025-05-20'
 ORDER BY p.date ASC
 LIMIT 10;
-
+-- ========================================
+UPDATE project
+	SET organization_id = $1, title = $2, description = $3, location = $4, date = $5
+	WHERE project_id = $6
+	RETURNING project_id;
 
 -- ========================================
 -- Category Table
