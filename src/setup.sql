@@ -178,4 +178,12 @@ FROM project_category pc
 JOIN project  p ON pc.project_id  = p.project_id
 JOIN category c ON pc.category_id = c.category_id
 ORDER BY c.name, p.title;
+
+-- ============================================
+-- INSERT INTO category (name) VALUES
+-- ('Arts and Culture'),
+-- ('Disaster Relief'),
+-- ('Youth Development'),
+-- ('Senior Support'),
+-- ('Housing and Shelter');
 	
