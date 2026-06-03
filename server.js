@@ -29,9 +29,7 @@ const app = express();
   * Configure Express middleware
   */
 
-// Use flash message middleware
-app.use(flash);
-
+// 1. sesión primero
 // Set up session management
 // This code sets up session management with a secret key for signing the session ID cookie. 
 // The resave and saveUninitialized options control session saving behavior, 
@@ -42,6 +40,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
 }));
+
+// 2. connect-flash después
+// Use flash message middleware
+app.use(flash);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,6 +64,14 @@ app.use((req, res, next) => {
 
 // Middleware to make NODE_ENV available to all templates
 app.use((req, res, next) => {
+    //res.locals.isLoggedIn = false;
+    //if (req.session && req.session.user) {
+    //    res.locals.isLoggedIn = true;
+    //}
+    res.locals.flash = req.flash.bind(req);  // 3. exponer a las vistas
+    res.locals.isLoggedIn = !!req.session?.user;
+    res.locals.user = req.session?.user || null;
+
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
