@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user=> { %>
+                        <tr>
+                            <td>
+                                <%= user.name %>
+                            </td>
+                            <td>
+                                <%= user.email %>
+                            </td>
+                            <td>
+                                <span class="role-badge <%= user.role_name %>">
+                                    <%= user.role_name %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="table-summary">
+            <%= users.length %> registered user(s)
+        </p>
+
+        <a href="/dashboard" class="btn-primary" style="margin-top:1.5rem; display:inline-block;">
+            Back to Dashboard
+        </a>
+    </main>
+
+    <%- include('partials/footer') %>

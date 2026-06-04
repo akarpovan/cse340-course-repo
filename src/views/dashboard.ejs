@@ -5,12 +5,21 @@
             <%= title %>
         </h1>
 
-        <h2>Dashboard</h2>
-        <p>Name: <%= name %>
-        </p>
-        <p>Username: <%= email %>
-        </p>
+        <div class="dashboard-welcome">
+            <h2>Welcome back!</h2>
+            <p>Name: <span>
+                    <%= name %>
+                </span></p>
+            <p>Email: <span>
+                    <%= email %>
+                </span></p>
+        </div>
 
+        <div class="dashboard-actions">
+            <% if (user && user.role_name==='admin' ) { %>
+                <a href="/users" class="dashboard-card admin-only">Manage Users</a>
+                <% } %>
+        </div>
     </main>
 
     <%- include('partials/footer') %>
