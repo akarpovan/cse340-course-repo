@@ -10,7 +10,11 @@
                 <%= project.description %>
             </p>
 
-            <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+            <p>
+                <% if (user && user.role_name==='admin' ) { %>
+                    <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+                    <% } %>
+            </p>
 
             <ul class="details-list">
                 <li>
@@ -38,7 +42,11 @@
                 </li>
             </ul>
 
-            <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+            <p>
+                <% if (user && user.role_name==='admin' ) { %>
+                    <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+                    <% } %>
+            </p>
         </div>
     </main>
     <%- include('partials/footer') %>

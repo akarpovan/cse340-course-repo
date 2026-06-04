@@ -29,10 +29,16 @@ const createUser = async (name, email, passwordHash) => {
  * @returns {Promise<object|null>} - Returns user object if found, null if not found
  */
 const findUserByEmail = async (email) => {
-    const query = `
+    /** const query = `
         SELECT user_id, name, email, password_hash, role_id 
         FROM users 
         WHERE email = $1
+    `;*/
+    const query = `
+    SELECT u.user_id, u.name, u.email, u.password_hash, u.role_id, r.role_name 
+    FROM users u
+    JOIN roles r ON u.role_id = r.role_id
+    WHERE u.email = $1
     `;
     const queryParams = [email];
 

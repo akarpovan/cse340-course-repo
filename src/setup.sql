@@ -188,14 +188,18 @@ ORDER BY c.name, p.title;
 -- ('Housing and Shelter');
 
 
--- =======================================
+-- ======================
+SELECT user_id, name, email, password_hash, role_id, created_at
+	FROM public.users;
+
+-- ===
+-- Roles table defines available roles
 CREATE TABLE roles (
     role_id SERIAL PRIMARY KEY,
     role_name VARCHAR(50) UNIQUE NOT NULL,
     role_description TEXT
 );
 
--- =========================================
 INSERT INTO roles (role_name, role_description) VALUES 
     ('user', 'Standard user with basic access'),
     ('admin', 'Administrator with full system access');
@@ -203,7 +207,17 @@ INSERT INTO roles (role_name, role_description) VALUES
 -- Verify the data was inserted
 SELECT * FROM roles;
 
--- ==========================================================
+-- View all users and roles
+SELECT * FROM users;
+SELECT * FROM roles;
+
+-- Update the dedicated admin testing account to have admin role
+UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
+
+-- Verify the update by listing all users and their roles
+SELECT users.user_id, users.email, roles.role_name FROM users JOIN roles ON users.role_id = roles.role_id;
+
+-- Users table references roles
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -213,10 +227,11 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- =============================================================
 -- Insert a test user
-INSERT INTO users (name, email, password_hash, role_id) 
-VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
+-- INSERT INTO users (name, email, password_hash, role_id) 
+-- VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
+
+-- admin, admin@example.com, cse340!
 
 -- Join users and roles to see complete information
 SELECT u.user_id, u.name, u.email, r.role_name, r.role_description
@@ -224,9 +239,6 @@ FROM users u
 JOIN roles r ON u.role_id = r.role_id;
 
 -- Delete the test user
-DELETE FROM users WHERE email = 'test@example.com';
-
-
-
+-- DELETE FROM users WHERE email = 'test@example.com';
 
 	
