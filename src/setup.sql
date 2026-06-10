@@ -106,10 +106,10 @@ WHERE p.date >= '2025-05-20'
 ORDER BY p.date ASC
 LIMIT 10;
 -- ========================================
-UPDATE project
-	SET organization_id = $1, title = $2, description = $3, location = $4, date = $5
-	WHERE project_id = $6
-	RETURNING project_id;
+-- UPDATE project
+--	SET organization_id = $1, title = $2, description = $3, location = $4, date = $5
+--	WHERE project_id = $6
+--	RETURNING project_id;
 
 -- ========================================
 -- Category Table
@@ -241,4 +241,20 @@ JOIN roles r ON u.role_id = r.role_id;
 -- Delete the test user
 -- DELETE FROM users WHERE email = 'test@example.com';
 
-	
+-- ==========================================================
+-- Volunteer table: tracks which users volunteered for which projects
+-- Many-to-many relationship between users and projects
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS volunteer (
+    volunteer_id  SERIAL PRIMARY KEY,
+    user_id       INTEGER NOT NULL REFERENCES users(user_id)   ON DELETE CASCADE,
+    project_id    INTEGER NOT NULL REFERENCES project(project_id) ON DELETE CASCADE,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, project_id)   -- a user can only volunteer once per project
+);
+
+-- =====
+SELECT volunteer_id, user_id, project_id, created_at
+	FROM volunteer;
+

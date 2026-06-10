@@ -637,6 +637,126 @@ tbody td {
 }
 
 /* ============================================================
+   VOLUNTEER SECTION (project details page)
+   ============================================================ */
+
+.volunteer-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-left: 5px solid var(--clr-accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.volunteer-status {
+  margin: 0;
+  font-weight: 600;
+  color: #1e8449;
+  font-size: 1rem;
+}
+
+/* Danger button (remove volunteer) */
+.btn-danger {
+  display: inline-block;
+  background: #c0392b;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.65rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-danger:hover {
+  background: #96281b;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.88rem;
+}
+
+/* ============================================================
+   VOLUNTEER LIST (dashboard page)
+   ============================================================ */
+
+.volunteer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.volunteer-item {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-left: 4px solid var(--clr-accent);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  /* override default main ul li styles */
+  transform: none;
+}
+
+.volunteer-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+.volunteer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.volunteer-info a {
+  color: var(--clr-primary);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.volunteer-info a:hover {
+  text-decoration: underline;
+  color: var(--clr-accent);
+}
+
+.volunteer-meta {
+  font-size: 0.88rem;
+  color: var(--clr-text-muted);
+}
+
+.no-volunteers {
+  color: var(--clr-text-muted);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.no-volunteers a {
+  color: var(--clr-accent);
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 footer {

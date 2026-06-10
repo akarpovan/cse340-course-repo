@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { getVolunteerProjectsByUserId } from '../models/volunteers.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -73,13 +74,35 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
+/**const showDashboard = (req, res) => {
     const user = req.session.user;
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
         email: user.email
     });
+};*/
+
+const showDashboard = async (req, res) => {
+    const user = req.session.user;
+    try {
+        const volunteerProjects = await getVolunteerProjectsByUserId(user.user_id);
+        res.render('dashboard', {
+            title: 'Dashboard',
+            name: user.name,
+            email: user.email,
+            volunteerProjects
+        });
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        req.flash('error', 'An error occurred loading your dashboard.');
+        res.render('dashboard', {
+            title: 'Dashboard',
+            name: user.name,
+            email: user.email,
+            volunteerProjects: []
+        });
+    }
 };
 
 /**

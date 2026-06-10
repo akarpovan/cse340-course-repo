@@ -9,7 +9,9 @@ import {
     processNewProjectForm,
     projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    processAddVolunteer,
+    processRemoveVolunteer
 } from './controllers/projects.js';
 import {
     showCategoriesPage,
@@ -114,6 +116,10 @@ router.get('/dashboard', requireLogin, showDashboard);
 
 // Admin-only: list all registered users
 router.get('/users', requireRole('admin'), showUsersPage);
+
+// Volunteer routes — protected: must be logged in
+router.post('/volunteer/:projectId', requireLogin, processAddVolunteer);
+router.post('/unvolunteer/:projectId', requireLogin, processRemoveVolunteer);
 
 // error-handling routes
 router.get('/test-error', testErrorPage);
